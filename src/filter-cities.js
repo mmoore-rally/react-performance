@@ -16,6 +16,6 @@ export function getItems(filter) {
     keys: ['name'],
   })
 }
-
+// New comment to make this work
 // This is to avoid some issues https://github.com/kentcdodds/react-performance/issues/115
 export default class makeFilterCitiesWorker {}
