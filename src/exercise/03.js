@@ -5,7 +5,7 @@ import * as React from 'react'
 import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
-import { is } from '@react-spring/shared'
+// import { is } from '@react-spring/shared'
 
 function Menu({
   items,
@@ -22,8 +22,8 @@ function Menu({
           getItemProps={getItemProps}
           item={item}
           index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
+          isSelected={selectedItem?.id === item.id}
+          isHighlighted={highlightedIndex === index}
         >
           {item.name}
         </ListItem>
@@ -37,12 +37,10 @@ function ListItem({
   getItemProps,
   item,
   index,
-  selectedItem,
-  highlightedIndex,
+  isSelected,
+  isHighlighted,
   ...props
 }) {
-  const isSelected = selectedItem?.id === item.id
-  const isHighlighted = highlightedIndex === index
   return (
     <li
       {...getItemProps({
@@ -57,22 +55,7 @@ function ListItem({
     />
   )
 }
-// ListItem = React.memo(ListItem)
-ListItem = React.memo(ListItem, (prevProps, nextProps) => {
-  if(prevProps.getItemProps !== nextProps.getItemProps) return false
-  if(prevProps.item !== nextProps.item) return false
-  if(prevProps.index !== nextProps.index) return false
-  if(prevProps.selectedItem !== nextProps.selectedItem) return false
-  
-  if(prevProps.highlightedIndex !== nextProps.highlightedIndex) {
-    const wasHighlighted = prevProps.highlightedIndex === prevProps.index
-    const isHighlighted = nextProps.highlightedIndex === nextProps.index
-
-    if(wasHighlighted !== isHighlighted) return false
-  }
-
-  return true
-})
+ListItem = React.memo(ListItem)
 
 function App() {
   const forceRerender = useForceRerender()
